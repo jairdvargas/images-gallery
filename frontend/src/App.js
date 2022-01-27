@@ -1,8 +1,10 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Header from './components/Header';
 
 const App = () => {
   return (
     <div className="App">
-      <h1>Galeria de Imagenes 2</h1>
+      <Header titulo="Galeria de Imagenes_"/>
     </div>
   );
 }
