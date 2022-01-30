@@ -17,10 +17,13 @@ const App = () => {
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
+        
       })
       .catch((err) => {
         console.log(err);
       })
+      // Sirve para limpiar la casilla de busqueda una vez que se termina de buscar
+      definirPalabra('');
   };
 
   return (
