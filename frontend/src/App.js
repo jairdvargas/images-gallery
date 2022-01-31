@@ -4,6 +4,7 @@ import Search from './components/Search';
 import { useState } from 'react';
 import ImageCard from './components/ImageCard';
 import { Container, Row, Col } from 'react-bootstrap';
+import Bienvenida from './components/Bienvenida';
 
 const UNSPLASH_KEY = process.env.REACT_APP_UNPSASH_KEY;
 
@@ -47,17 +48,21 @@ const App = () => {
         manejadorSubmit={manejadorSearchSubmit}
       />
       <Container className="mt-4">
-        <Row sd={1} md={2} lg={3}>
-          {imagenes.map((imagen, i) => (
-            <Col key={i} className="pb-3">
-              <ImageCard
-                key={i}
-                imagen={imagen}
-                eliminarImagen={manejadorEliminaImagen}
-              />
-            </Col>
-          ))}
-        </Row>
+        {imagenes.length ? (
+          <Row sd={1} md={2} lg={3}>
+            {imagenes.map((imagen, i) => (
+              <Col key={i} className="pb-3">
+                <ImageCard
+                  key={i}
+                  imagen={imagen}
+                  eliminarImagen={manejadorEliminaImagen}
+                />
+              </Col>
+            ))}
+          </Row>
+        ) : (
+          <Bienvenida />
+        )}
       </Container>
     </div>
   );
