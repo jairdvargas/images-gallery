@@ -11,6 +11,7 @@
 # pipenv install --dev black
 # pipenv install --dev pylint
 # pipenv install --dev pycodestyle
+# se usa pipenv sync para poder sincronizaar si se instalo algo nuevo en el ambiente virtual python
 
 
 # from wsgiref import headers
