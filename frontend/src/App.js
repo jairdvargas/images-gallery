@@ -6,7 +6,8 @@ import ImageCard from './components/ImageCard';
 import { Container, Row, Col } from 'react-bootstrap';
 import Bienvenida from './components/Bienvenida';
 
-const UNSPLASH_KEY = process.env.REACT_APP_UNPSASH_KEY;
+//const UNSPLASH_KEY = process.env.REACT_APP_UNPSASH_KEY;
+const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5050';
 
 const App = () => {
   const [palabra, definirPalabra] = useState('');
@@ -19,9 +20,7 @@ const App = () => {
     console.log(palabra);
     //console.log(e.target[0].value);
     //console.log(e.target[0].value);
-    fetch(
-      `https://api.unsplash.com/photos/random/?query=${palabra}&client_id=${UNSPLASH_KEY}`
-    )
+    fetch(`${API_URL}/nueva-imagen?query=${palabra}`)
       .then((res) => res.json())
       .then((data) => {
         //agregando al principio del mismo array el valor de data al array de imgenes

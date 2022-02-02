@@ -6,6 +6,7 @@
 # #por eso se ignora la carpeta .venv en github porque se puede recrear localmente. 
 # Para poder ejecutar flask en linux se tiene q poder en terminal el comnado: export FLASK_APP=main
 #luego se tiene que ejecutar flask con: flask run
+#se instala igual : pipenv install flask-cors
 
 #from wsgiref import headers
 from asyncio import format_helpers
@@ -13,6 +14,7 @@ import requests
 import os
 from flask import Flask, request
 from dotenv import load_dotenv
+from flask_cors import CORS
 
 #cargar el archivo de variable donde esta la llave del api
 load_dotenv(dotenv_path="./.env.local")
@@ -25,7 +27,10 @@ DEBUGA=bool(os.environ.get("DEBUGA", True))
 #revisar si existe la llave api
 if not UNSPLASH_KEY:
   raise EnvironmentError("Por favor crear el archivo .env.local y agregar UNSPLASH_KEY")
+
 app = Flask(__name__)
+#aqui se habilita cors
+CORS(app)
 
 #Habilitacion de debug on en Flask
 app.config["DEBUG"] = DEBUGA
