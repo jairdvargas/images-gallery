@@ -8,6 +8,7 @@
 #luego se tiene que ejecutar flask con: flask run
 
 #from wsgiref import headers
+from asyncio import format_helpers
 import requests
 import os
 from flask import Flask, request
@@ -18,13 +19,16 @@ load_dotenv(dotenv_path="./.env.local")
 
 UNSPLASH_URL="https://api.unsplash.com/photos/random"
 UNSPLASH_KEY=os.environ.get("UNSPLASH_KEY", "")
+DEBUGA=bool(os.environ.get("DEBUGA", True))
+
 
 #revisar si existe la llave api
 if not UNSPLASH_KEY:
   raise EnvironmentError("Por favor crear el archivo .env.local y agregar UNSPLASH_KEY")
 app = Flask(__name__)
 
-
+#Habilitacion de debug on en Flask
+app.config["DEBUG"] = DEBUGA
 
 @app.route("/nueva-imagen")
 def nueva_imagen():
