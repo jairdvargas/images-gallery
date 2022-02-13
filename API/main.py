@@ -21,6 +21,7 @@ import os
 from flask import Flask, request
 from dotenv import load_dotenv
 from flask_cors import CORS
+from mongo_client import insertar_documento_test
 
 # cargar el archivo de variable donde esta la llave del api
 load_dotenv(dotenv_path="./.env.local")
@@ -42,6 +43,8 @@ CORS(app)
 
 # Habilitacion de debug on en Flask
 app.config["DEBUG"] = DEBUGA
+
+insertar_documento_test()
 
 
 @app.route("/nueva-imagen")
