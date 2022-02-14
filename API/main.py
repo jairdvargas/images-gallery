@@ -16,12 +16,15 @@
 
 # from wsgiref import headers
 from asyncio import format_helpers
+from unittest import result
 import requests
 import os
-from flask import Flask, request
+from flask import Flask, request, jsonify
 from dotenv import load_dotenv
 from flask_cors import CORS
 from mongo_client import insertar_documento_test
+from mongo_client import cliente_mongo
+
 
 # cargar el archivo de variable donde esta la llave del api
 load_dotenv(dotenv_path="./.env.local")
@@ -29,6 +32,10 @@ load_dotenv(dotenv_path="./.env.local")
 UNSPLASH_URL = "https://api.unsplash.com/photos/random"
 UNSPLASH_KEY = os.environ.get("UNSPLASH_KEY", "")
 DEBUGA = bool(os.environ.get("DEBUGA", True))
+
+# Mongo
+galeriadb = cliente_mongo.galeria
+coleccion_de_imagenes = galeriadb.imagenes
 
 
 # revisar si existe la llave api
@@ -55,6 +62,23 @@ def nueva_imagen():
     respuesta = requests.get(url=UNSPLASH_URL, headers=headers, params=params)
     data = respuesta.json()
     return data
+
+
+@app.route("/imagenes", methods=["GET", "POST"])
+def imagenes():
+    if request.method == "GET":
+        # leer imagenes de la base de datos
+        imagenes = coleccion_de_imagenes.find({})
+        # la funcion find retorna "cursor" y se tiene que convertir a json con jsonify
+        return jsonify([img for img in imagenes])
+    if request.method == "POST":
+        # guardar imagen en la base de datos
+        imagen = request.get_json()
+        imagen["_id"] = imagen.get("id")
+        # json.loads(request.data)
+        resultado = coleccion_de_imagenes.insert_one(imagen)
+        id_insertada = resultado.inserted_id
+        return {"id_insertado": id_insertada}
 
 
 if __name__ == "__main__":
