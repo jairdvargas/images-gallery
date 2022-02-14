@@ -5,6 +5,7 @@ import { useState } from 'react';
 import ImageCard from './components/ImageCard';
 import { Container, Row, Col } from 'react-bootstrap';
 import Bienvenida from './components/Bienvenida';
+import axios from 'axios';
 
 //const UNSPLASH_KEY = process.env.REACT_APP_UNPSASH_KEY;
 const API_URL = process.env.REACT_APP_API_URL || 'http://127.0.0.1:5050';
@@ -15,20 +16,20 @@ const App = () => {
 
   //console.log(imagenes);
 
-  const manejadorSearchSubmit = (e) => {
+  const manejadorSearchSubmit = async (e) => {
     e.preventDefault();
-    console.log(palabra);
-    //console.log(e.target[0].value);
-    //console.log(e.target[0].value);
-    fetch(`${API_URL}/nueva-imagen?query=${palabra}`)
-      .then((res) => res.json())
-      .then((data) => {
-        //agregando al principio del mismo array el valor de data al array de imgenes
-        definirImagenes([{ ...data, titulo: palabra }, ...imagenes]);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+    //Aqui estamos usando la libreria axios para poder esperar que recibimos una respuesta
+    try {
+      const resultado = await axios.get(
+        `${API_URL}/nueva-imagen?query=${palabra}`
+      );
+      //Aqui se agrega la imagen y se pone en el array
+      definirImagenes([{ ...resultado.data, titulo: palabra }, ...imagenes]);
+    } catch (error) {
+      console.log(error);
+    }
+
     // Sirve para limpiar la casilla de busqueda una vez que se termina de buscar
     definirPalabra('');
   };
