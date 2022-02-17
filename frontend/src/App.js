@@ -14,6 +14,18 @@ const App = () => {
   const [palabra, definirPalabra] = useState('');
   const [imagenes, definirImagenes] = useState([]);
 
+  //solo se ejecutara una sola vez
+  const getImagenesGuardadas = async () => {
+    try {
+      const resultado = await axios.get(`${API_URL}/imagenes`);
+      definirImagenes(resultado.data || []);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => getImagenesGuardadas(), []);
+
   //console.log(imagenes);
 
   const manejadorSearchSubmit = async (e) => {
