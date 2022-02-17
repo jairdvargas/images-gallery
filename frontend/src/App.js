@@ -45,10 +45,33 @@ const App = () => {
     // Sirve para limpiar la casilla de busqueda una vez que se termina de buscar
     definirPalabra('');
   };
+
+  //sirve para eliminar imagne
   const manejadorEliminaImagen = (id) => {
     definirImagenes(imagenes.filter((imagen) => imagen.id !== id));
   };
 
+  //sirve para guardar imagen
+  const manejadorGuardarImagen = async (id) => {
+    const imagenAGuardarse = imagenes.find((imagen) => imagen.id === id);
+    //se agrega una propiedad de si esta  guardado o no
+    imagenAGuardarse.guardado = true;
+    try {
+      const resultado = await axios.post(
+        `${API_URL}/imagenes`,
+        imagenAGuardarse
+      );
+      if (resultado.data?.id_insertado) {
+        definirImagenes(
+          imagenes.map((imagen) =>
+            imagen.id === id ? { ...imagen, guardado: true } : imagen
+          )
+        );
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //Solamente va a ser insertado las Cards cuando el array de imagenes no
   //sea cero, los doble signo de admiracion se usa para volverlo en boolean
   return (
@@ -68,6 +91,7 @@ const App = () => {
                   key={i}
                   imagen={imagen}
                   eliminarImagen={manejadorEliminaImagen}
+                  guardarImagen={manejadorGuardarImagen}
                 />
               </Col>
             ))}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
 
-const ImageCard = ({ imagen, eliminarImagen }) => {
+const ImageCard = ({ imagen, eliminarImagen, guardarImagen }) => {
   //vamos a retornar descripcion o sino alt descripcion porque a veces viene en null
   return (
     <Card style={{ width: '18rem' }}>
@@ -11,6 +11,9 @@ const ImageCard = ({ imagen, eliminarImagen }) => {
         <Card.Text>{imagen.alt_description || imagen.description}</Card.Text>
         <Button variant="primary" onClick={() => eliminarImagen(imagen.id)}>
           Eliminar
+        </Button>{' '}
+        <Button variant="secondary" onClick={() => guardarImagen(imagen.id)}>
+          Guardar
         </Button>
       </Card.Body>
     </Card>
