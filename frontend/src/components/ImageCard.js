@@ -12,9 +12,11 @@ const ImageCard = ({ imagen, eliminarImagen, guardarImagen }) => {
         <Button variant="primary" onClick={() => eliminarImagen(imagen.id)}>
           Eliminar
         </Button>{' '}
-        <Button variant="secondary" onClick={() => guardarImagen(imagen.id)}>
-          Guardar
-        </Button>
+        {!imagen.guardado && (
+          <Button variant="secondary" onClick={() => guardarImagen(imagen.id)}>
+            Guardar
+          </Button>
+        )}
       </Card.Body>
     </Card>
   );
