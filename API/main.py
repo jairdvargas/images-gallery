@@ -16,6 +16,7 @@
 
 # from wsgiref import headers
 from asyncio import format_helpers
+from crypt import methods
 from unittest import result
 import requests
 import os
@@ -79,6 +80,20 @@ def imagenes():
         resultado = coleccion_de_imagenes.insert_one(imagen)
         id_insertada = resultado.inserted_id
         return {"id_insertado": id_insertada}
+
+
+@app.route("/imagenes/<id_imagen>", methods=["DELETE"])
+def imagen(id_imagen):
+    if request.method == "DELETE":
+        # eliminar la imagen de la base de datos
+        resultado = coleccion_de_imagenes.delete_one({"_id": id_imagen})
+        print(resultado.deleted_count)
+        if not resultado:
+            return {"error": "Imagen no fue eliminada, intente de nuevo"}, 500
+        if resultado and not resultado.deleted_count:
+            return {"error": "Imagen no encontrada"}, 404
+        else:
+            return {"id_eliminada": id_imagen}
 
 
 if __name__ == "__main__":
