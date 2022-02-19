@@ -47,8 +47,15 @@ const App = () => {
   };
 
   //sirve para eliminar imagne
-  const manejadorEliminaImagen = (id) => {
-    definirImagenes(imagenes.filter((imagen) => imagen.id !== id));
+  const manejadorEliminaImagen = async (id) => {
+    try {
+      const resultado = await axios.delete(`${API_URL}/imagenes/${id}`);
+      if (resultado.data?.id_eliminada) {
+        definirImagenes(imagenes.filter((imagen) => imagen.id !== id));
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   //sirve para guardar imagen
